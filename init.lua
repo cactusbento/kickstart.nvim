@@ -51,7 +51,7 @@ Kickstart Guide:
       - Tutor
       - <enter key>
 
-    (If you already know the Neovim basics, you can skip this step.)
+    (If you already now the Neovim basics, you can skip this step.)
 
   Once you've completed that, you can continue working through **AND READING** the rest
   of the kickstart init.lua.
@@ -336,6 +336,7 @@ require('lazy').setup({
         { '<leader>d', group = '[D]ocument' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
+        { '<leader>S', group = '[S]urround' },
         { '<leader>w', group = '[W]orkspace' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },

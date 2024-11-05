@@ -19,6 +19,28 @@ return {
     end,
   },
   {
+    'kylechui/nvim-surround',
+    version = '*', -- Use for stability; omit to use `main` branch for the latest features
+    config = function()
+      require('nvim-surround').setup {
+        -- Configuration here, or leave empty to use defaults
+        keymaps = {
+          insert = false,
+          insert_line = false,
+          normal = '<leader>Ss',
+          normal_cur = '<leader>Sc',
+          normal_line = '<leader>Sl',
+          normal_cur_line = false,
+          visual = '<leader>Ss',
+          visual_line = '<leader>Sl',
+          delete = false,
+          change = false,
+          change_line = false,
+        },
+      }
+    end,
+  },
+  {
     'romgrk/barbar.nvim',
     dependencies = {
       'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
