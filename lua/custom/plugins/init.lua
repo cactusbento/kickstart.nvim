@@ -25,7 +25,7 @@ return {
       require('nvim-surround').setup {
         -- Configuration here, or leave empty to use defaults
         keymaps = {
-          insert = false,
+          insert = '<C-s>s',
           insert_line = false,
           normal = '<leader>Ss',
           normal_cur = '<leader>Sc',
@@ -33,8 +33,8 @@ return {
           normal_cur_line = false,
           visual = '<leader>Ss',
           visual_line = '<leader>Sl',
-          delete = false,
-          change = false,
+          delete = '<leader>Sd',
+          change = '<leader>Sc',
           change_line = false,
         },
       }
