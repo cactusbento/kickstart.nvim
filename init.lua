@@ -199,7 +199,7 @@ vim.keymap.set('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
 vim.keymap.set('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
 vim.keymap.set('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
 
-vim.keymap.set('n', '<leader>bn', '<cmd>buffers<cr>', { desc = '[B]uffer New' })
+vim.keymap.set('n', '<leader>bn', '<cmd>enew<cr>', { desc = '[B]uffer New' })
 vim.keymap.set('n', '<leader>bd', '<cmd>bd<cr>', { desc = '[B]uffer Delete' })
 vim.keymap.set('n', '<leader>b[', '<cmd>bprevious<cr>', { desc = '[B]uffer Previous' })
 vim.keymap.set('n', '<leader>b]', '<cmd>bnext<cr>', { desc = '[B]uffer Next' })

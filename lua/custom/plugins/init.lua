@@ -30,7 +30,7 @@ return {
       auto_hide = 1,
       -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
       -- animation = true,
-      -- insert_at_start = true,
+      insert_at_end = true,
       -- …etc.
       icons = {
         -- Configure the base icons on the bufferline.
