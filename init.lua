@@ -199,6 +199,14 @@ vim.keymap.set('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
 vim.keymap.set('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
 vim.keymap.set('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
 
+vim.keymap.set('n', '<leader>bn', '<cmd>buffers<cr>', { desc = '[B]uffer New' })
+vim.keymap.set('n', '<leader>bd', '<cmd>bd<cr>', { desc = '[B]uffer Delete' })
+vim.keymap.set('n', '<leader>b[', '<cmd>bprevious<cr>', { desc = '[B]uffer Previous' })
+vim.keymap.set('n', '<leader>b]', '<cmd>bnext<cr>', { desc = '[B]uffer Next' })
+vim.keymap.set('n', '<leader>bl', '<cmd>buffers<cr>', { desc = '[B]uffer List' })
+vim.keymap.set('n', '<leader>bs', '<cmd>sp<cr>', { desc = '[B]uffer Split Horizontal' })
+vim.keymap.set('n', '<leader>bv', '<cmd>vs<cr>', { desc = '[B]uffer Split Vertical' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -323,6 +331,7 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
+        { '<leader>b', group = '[B]uffer' },
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },
         { '<leader>r', group = '[R]ename' },
@@ -654,6 +663,7 @@ require('lazy').setup({
 
       local lspconfig = require 'lspconfig'
       lspconfig.zls.setup {}
+      lspconfig.jedi_language_server.setup {}
 
       -- Ensure the servers and tools above are installed
       --  To check the current status of installed tools and/or manually install
