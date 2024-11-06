@@ -948,6 +948,16 @@ require('lazy').setup({
         return '%2l:%-2v'
       end
 
+      local splitjoin = require 'mini.splitjoin'
+
+      splitjoin.setup {
+        mappings = {
+          toggle = '',
+        },
+      }
+      --
+      vim.keymap.set('n', '<leader>cm', splitjoin.toggle, { desc = 'Toggle split arguments' })
+
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
