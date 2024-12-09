@@ -664,6 +664,7 @@ require('lazy').setup({
       }
 
       local lspconfig = require 'lspconfig'
+      lspconfig.clangd.setup {}
       lspconfig.zls.setup {}
       lspconfig.jedi_language_server.setup {}
 
@@ -677,7 +678,8 @@ require('lazy').setup({
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
-      local ensure_installed = vim.tbl_keys(servers or {})
+      -- local ensure_installed = vim.tbl_keys(servers or {})
+      local ensure_installed = {}
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
       })
@@ -784,6 +786,7 @@ require('lazy').setup({
       --  into multiple repos for maintenance purposes.
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+      -- 'hrsh7th/cmp-nvim-lsp-signature-help',
     },
     config = function()
       -- See `:help cmp`
@@ -888,6 +891,7 @@ require('lazy').setup({
             -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
             group_index = 0,
           },
+          -- { name = 'nvim_lsp_signature_help' },
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
@@ -958,29 +962,76 @@ require('lazy').setup({
       --
       vim.keymap.set('n', '<leader>cm', splitjoin.toggle, { desc = 'Toggle split arguments' })
 
+      local completion = require 'mini.completion'
+      completion.setup {
+        -- Delay (debounce type, in ms) between certain Neovim event and action.
+        -- This can be used to (virtually) disable certain automatic actions by
+        -- setting very high delay time (like 10^7).
+        delay = { completion = 10 ^ 7, info = 50, signature = 50 },
+
+        -- Configuration for action windows:
+        -- - `height` and `width` are maximum dimensions.
+        -- - `border` defines border (as in `nvim_open_win()`).
+        window = {
+          info = { height = 25, width = 80, border = 'none' },
+          signature = { height = 25, width = 80, border = 'none' },
+        },
+
+        -- Way of how module does LSP completion
+        lsp_completion = {
+          -- `source_func` should be one of 'completefunc' or 'omnifunc'.
+          source_func = 'completefunc',
+
+          -- `auto_setup` should be boolean indicating if LSP completion is set up
+          -- on every `BufEnter` event.
+          auto_setup = true,
+
+          -- A function which takes LSP 'textDocument/completion' response items
+          -- and word to complete. Output should be a table of the same nature as
+          -- input items. Common use case is custom filter/sort.
+          process_items = completion.default_process_items, --<function: MiniCompletion.default_process_items>,
+        },
+
+        -- Fallback action. It will always be run in Insert mode. To use Neovim's
+        -- built-in completion (see `:h ins-completion`), supply its mapping as
+        -- string. Example: to use 'whole lines' completion, supply '<C-x><C-l>'.
+        fallback_action = '<C-n>', --<function: like `<C-n>` completion>,
+
+        -- Module mappings. Use `''` (empty string) to disable one. Some of them
+        -- might conflict with system mappings.
+        mappings = {
+          force_twostep = '<C-Space>', -- Force two-step completion
+          force_fallback = '<A-Space>', -- Force fallback completion
+        },
+
+        -- Whether to set Vim's settings for better experience (modifies
+        -- `shortmess` and `completeopt`)
+        set_vim_settings = true,
+      }
+
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
-  {
-    'ray-x/lsp_signature.nvim',
-    event = 'BufRead',
-    config = function()
-      require('lsp_signature').setup {
-        bind = true,
-        hint_enable = true,
-        hint_prefix = '!>',
-        toggle_key = '<C-x>',
-        transparency = 10,
-        handler_opts = {
-          border = 'none',
-        },
-        hi_parameter = 'LspSignatureActiveParameter',
-
-        doc_lines = 10,
-      }
-    end,
-  },
+  -- {
+  --   'ray-x/lsp_signature.nvim',
+  --   event = 'BufRead',
+  --   config = function()
+  --     require('lsp_signature').setup {
+  --       bind = true,
+  --       hint_enable = false,
+  --       hint_prefix = '!>',
+  --       toggle_key = '<C-x>',
+  --       transparency = 10,
+  --       handler_opts = {
+  --         border = 'none',
+  --       },
+  --       hi_parameter = nil,
+  --
+  --       doc_lines = 10,
+  --     }
+  --   end,
+  -- },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
