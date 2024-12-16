@@ -666,6 +666,18 @@ require('lazy').setup({
       local lspconfig = require 'lspconfig'
       lspconfig.clangd.setup {}
       lspconfig.zls.setup {}
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        pattern = { '*.zig', '*.zon' },
+        callback = function(ev)
+          vim.lsp.buf.format()
+          vim.lsp.buf.code_action {
+            context = { only = { 'source.fixAll' } },
+            apply = true,
+          }
+        end,
+      })
+
+      lspconfig.ocamllsp.setup {}
       lspconfig.jedi_language_server.setup {}
 
       -- Ensure the servers and tools above are installed
@@ -686,13 +698,13 @@ require('lazy').setup({
       require('mason-tool-installer').setup {
         ensure_installed = ensure_installed,
         automatic_installation = {
-          exclude = { 'zls' },
+          exclude = { 'zls', 'ocamllsp' },
         },
       }
 
       require('mason-lspconfig').setup {
         automatic_installation = {
-          exclude = { 'zls' },
+          exclude = { 'zls', 'ocamllsp' },
         },
         handlers = {
           function(server_name)
