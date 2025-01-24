@@ -46,4 +46,14 @@ return {
       return {}
     end,
   },
+  {
+    'glepnir/template.nvim',
+    cmd = { 'Template', 'TemProject' },
+    config = function()
+      require('template').setup {
+        author = 'Timothy Lau',
+        email = 'timothy.lau.5@us.af.mil',
+      }
+    end,
+  },
 }

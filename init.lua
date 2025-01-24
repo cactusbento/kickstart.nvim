@@ -924,6 +924,17 @@ require('lazy').setup({
       setup = {
         transparent = false,
         terminal_colors = true,
+        styles = {
+          -- Value is any valid attr-list value for `:help nvim_set_hl`
+          comments = { italic = true },
+          keywords = { italic = true },
+          functions = { italic = false },
+          variables = { italic = false },
+          -- Background styles. Can be "dark", "transparent" or "normal"
+          sidebars = 'dark', -- style for sidebars, see below
+          floats = 'dark', -- style for floating windows
+        },
+        lualine_bold = false,
       },
     },
   },
