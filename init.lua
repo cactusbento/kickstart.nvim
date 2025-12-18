@@ -663,9 +663,11 @@ require('lazy').setup({
         },
       }
 
-      local lspconfig = require 'lspconfig'
-      lspconfig.clangd.setup {}
-      lspconfig.zls.setup {}
+      vim.lsp.enable 'zls'
+      vim.lsp.enable 'clangd'
+      vim.lsp.enable 'ocamllsp'
+      vim.lsp.enable 'jedi_language_server'
+
       vim.api.nvim_create_autocmd('BufWritePre', {
         pattern = { '*.zig', '*.zon' },
         callback = function(ev)
@@ -676,9 +678,6 @@ require('lazy').setup({
           }
         end,
       })
-
-      lspconfig.ocamllsp.setup {}
-      lspconfig.jedi_language_server.setup {}
 
       -- Ensure the servers and tools above are installed
       --  To check the current status of installed tools and/or manually install
@@ -702,20 +701,27 @@ require('lazy').setup({
         },
       }
 
+      for name, config in pairs(servers) do
+        local config = config or {}
+
+        config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
+        vim.lsp.config(name, config)
+      end
+
       require('mason-lspconfig').setup {
         automatic_installation = {
           exclude = { 'zls', 'ocamllsp' },
         },
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
+        -- handlers = {
+        --   function(server_name)
+        --     local server = servers[server_name] or {}
+        --     -- This handles overriding only values explicitly passed
+        --     -- by the server configuration above. Useful when disabling
+        --     -- certain features of an LSP (for example, turning off formatting for ts_ls)
+        --     server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+        --     require('lspconfig')[server_name].setup(server)
+        --   end,
+        -- },
       }
     end,
   },
