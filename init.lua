@@ -123,8 +123,8 @@ do
   --  Remove this option if you want your OS clipboard to remain independent.
   --  See `:help 'clipboard'`
   vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
-  vim.g.clipboard = 'xclip'
-  -- vim.g.clipboard="wl-copy"
+  -- vim.g.clipboard = 'xclip'
+  -- vim.g.clipboard = 'wl-copy'
 
   -- Enable break indent
   vim.o.breakindent = true
