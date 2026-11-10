@@ -123,7 +123,7 @@ do
   --  Remove this option if you want your OS clipboard to remain independent.
   --  See `:help 'clipboard'`
   vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
-  vim.g.clipboard="xclip"
+  vim.g.clipboard = 'xclip'
   -- vim.g.clipboard="wl-copy"
 
   -- Enable break indent
@@ -434,8 +434,7 @@ do
     },
   }
 
-  require('solarized').setup {
-  }
+  require('solarized').setup {}
 
   -- Load the colorscheme here.
   -- Like many other themes, this one has different styles, and you could load
@@ -494,7 +493,7 @@ do
 
   -- mini.comment
   require('mini.comment').setup {
-  -- Module mappings. Use `''` (empty string) to disable one.
+    -- Module mappings. Use `''` (empty string) to disable one.
     mappings = {
       -- Toggle comment (like `gcip` - comment inner paragraph) for both
       -- Normal and Visual modes
@@ -760,10 +759,10 @@ do
   ---@type table<string, vim.lsp.Config>
   local servers = {
     -- clangd = {},
-    -- gopls = {},
+    gopls = {},
     -- pyright = {},
     -- tsc = {},
-    --
+
     -- Some languages (like rust) have entire language plugins that can be useful:
     --    https://github.com/mrcjkb/rustaceanvim
     --
@@ -838,6 +837,19 @@ do
     vim.lsp.config(name, server)
     vim.lsp.enable(name)
   end
+
+  -- Enable locally installed servers
+  --  See `:help lsp-config` for information about keys and how to configure
+  ---@type table<string, vim.lsp.Config>
+  local local_servers = {
+    zls = {},
+    clangd = {},
+  }
+
+  for name, server in pairs(local_servers) do
+    vim.lsp.config(name, server)
+    vim.lsp.enable(name)
+  end
 end
 
 -- ============================================================
@@ -850,15 +862,17 @@ do
   require('conform').setup {
     notify_on_error = false,
     format_on_save = function(bufnr)
-      -- You can specify filetypes to autoformat on save here:
-      local enabled_filetypes = {
-        -- lua = true,
-        -- python = true,
+      -- Specify file types to disable by setting them to true.
+      -- Set to false to ensure that a file type is always formatted.
+      local disabled_filetypes = {
+        lua = false,
+        python = false,
+        zig = false,
       }
-      if enabled_filetypes[vim.bo[bufnr].filetype] then
-        return { timeout_ms = 500 }
-      else
+      if disabled_filetypes[vim.bo[bufnr].filetype] then
         return nil
+      else
+        return { timeout_ms = 500 }
       end
     end,
     default_format_opts = {
@@ -923,6 +937,11 @@ do
       --
       -- See `:help blink-cmp-config-keymap` for defining your own keymap
       preset = 'default',
+      ['<enter>'] = { 'select_and_accept', 'fallback' },
+
+      -- show with a list of providers
+      ['<C-space>'] = { 'show', 'fallback' },
+      ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
 
       -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
       --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
@@ -937,7 +956,18 @@ do
     completion = {
       -- By default, you may press `<c-space>` to show the documentation.
       -- Optionally, set `auto_show = true` to show the documentation after a delay.
-      documentation = { auto_show = false, auto_show_delay_ms = 500 },
+      documentation = { auto_show = true, auto_show_delay_ms = 500 },
+      keyword = { range = 'full' },
+      accept = {
+        auto_brackets = {
+          enabled = false,
+        },
+      },
+      list = {
+        selection = {
+          auto_insert = false,
+        },
+      },
     },
 
     sources = {
@@ -956,7 +986,7 @@ do
     fuzzy = { implementation = 'lua' },
 
     -- Shows a signature help window while you type arguments for a function
-    signature = { enabled = true },
+    signature = { enabled = true, trigger = {} },
   }
 end
 
@@ -1041,10 +1071,10 @@ do
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug'
-  -- require 'kickstart.plugins.indent_line'
-  -- require 'kickstart.plugins.lint'
-  -- require 'kickstart.plugins.autopairs'
-  -- require 'kickstart.plugins.neo-tree'
+  require 'kickstart.plugins.indent_line'
+  require 'kickstart.plugins.lint'
+  require 'kickstart.plugins.autopairs'
+  require 'kickstart.plugins.neo-tree'
 
   -- NOTE: You can add your own plugins, configuration, etc. in `lua/custom/plugins/*.lua`.
   --
