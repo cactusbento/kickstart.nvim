@@ -110,7 +110,7 @@ do
   vim.o.number = true
   -- You can also add relative line numbers, to help with jumping.
   --  Experiment for yourself to see if you like it!
-  -- vim.o.relativenumber = true
+  vim.o.relativenumber = true
 
   -- Enable mouse mode, can be useful for resizing splits for example!
   vim.o.mouse = 'a'
@@ -938,6 +938,8 @@ do
       -- See `:help blink-cmp-config-keymap` for defining your own keymap
       preset = 'default',
       ['<enter>'] = { 'select_and_accept', 'fallback' },
+      ['<tab>'] = { 'select_next', 'fallback' },
+      ['<S-tab>'] = { 'select_prev', 'fallback' },
 
       -- show with a list of providers
       ['<C-space>'] = { 'show', 'fallback' },
@@ -1004,7 +1006,7 @@ do
   vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
   -- Ensure basic parsers are installed
-  local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+  local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'zig' }
   require('nvim-treesitter').install(parsers)
 
   ---@param buf integer
@@ -1079,7 +1081,7 @@ do
   -- NOTE: You can add your own plugins, configuration, etc. in `lua/custom/plugins/*.lua`.
   --
   -- For independent modules, uncomment the convenience loader:
-  -- require 'custom.plugins'
+  require 'custom.plugins'
   --
   -- `custom.plugins` automatically loads files from that directory, but their
   -- order is unspecified. If plugins depend on each other, keep them in the same
