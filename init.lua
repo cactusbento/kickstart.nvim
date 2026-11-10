@@ -123,6 +123,8 @@ do
   --  Remove this option if you want your OS clipboard to remain independent.
   --  See `:help 'clipboard'`
   vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
+  vim.g.clipboard="xclip"
+  -- vim.g.clipboard="wl-copy"
 
   -- Enable break indent
   vim.o.breakindent = true
@@ -424,6 +426,7 @@ do
   --
   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
   vim.pack.add { gh 'folke/tokyonight.nvim' }
+  vim.pack.add { gh 'maxmx03/solarized.nvim' }
   ---@diagnostic disable-next-line: missing-fields
   require('tokyonight').setup {
     styles = {
@@ -431,10 +434,13 @@ do
     },
   }
 
+  require('solarized').setup {
+  }
+
   -- Load the colorscheme here.
   -- Like many other themes, this one has different styles, and you could load
   -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  vim.cmd.colorscheme 'tokyonight-night'
+  vim.cmd.colorscheme 'solarized'
 
   -- Highlight todo, notes, etc in comments
   vim.pack.add { gh 'folke/todo-comments.nvim' }
@@ -485,6 +491,26 @@ do
   -- cursor location to LINE:COLUMN
   ---@diagnostic disable-next-line: duplicate-set-field
   statusline.section_location = function() return '%2l:%-2v' end
+
+  -- mini.comment
+  require('mini.comment').setup {
+  -- Module mappings. Use `''` (empty string) to disable one.
+    mappings = {
+      -- Toggle comment (like `gcip` - comment inner paragraph) for both
+      -- Normal and Visual modes
+      comment = '<leader>\\',
+
+      -- Toggle comment on current line
+      comment_line = '<leader>\\\\',
+
+      -- Toggle comment on visual selection
+      comment_visual = '<leader>\\',
+
+      -- Define 'comment' textobject (like `dgc` - delete whole comment block)
+      -- Works also in Visual mode if mapping differs from `comment_visual`
+      textobject = '<leader>\\',
+    },
+  }
 
   -- ... and there is more!
   --  Check out: https://github.com/nvim-mini/mini.nvim
